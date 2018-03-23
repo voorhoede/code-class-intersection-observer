@@ -1,11 +1,5 @@
-{% extends "views/_base.html" %}
-
-{% block navigation %}
-	<nav class="cc-navigation">
-		<a href="/" class="cc-back-link">← back to overview</a>
-		<a href="/exercise-1-answer" class="cc-answer-link">see answer →</a>
-	</nav>
-{% endblock %}
+{% set exercise = 1 %}
+{% extends "views/_base/exercise.html" %}
 
 {% block introduction %}
 	<h1>Lazyloading images</h1>

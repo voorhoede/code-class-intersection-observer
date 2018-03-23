@@ -1,0 +1,12 @@
+{% extends "views/_base.html" %}
+
+{% block navigation %}
+	<nav class="cc-navigation">
+	{% if solution %}
+		<a href="/exercise-{{ exercise }}" class="cc-back-link">← back to exercise {{ exercise }}</a>
+	{% else %}
+		<a href="/" class="cc-back-link">← back to overview</a>
+		<a href="/exercise-{{ exercise }}-solution" class="cc-answer-link">see answer →</a>
+	{% endif %}
+	</nav>
+{% endblock %}
