@@ -1,0 +1,108 @@
+{% extends "views/_base.html" %}
+
+{% block navigation %}
+	<nav class="cc-navigation">
+		<a href="/" class="cc-back-link">← back to overview</a>
+		<a href="/exercise-1-answer" class="cc-answer-link">see answer →</a>
+	</nav>
+{% endblock %}
+
+{% block introduction %}
+	<h1>Lazyloading images</h1>
+
+	<p>Intersection Observer can be used to defer loading of images to when they are about to appear in the viewport.</p>
+{% endblock %}
+
+{% block html %}
+	<section class="cc-html-playground">
+		<img data-src="http://fillmurray.com/500/500" width="500" height="500" alt="Bill Murray" data-lazyload>
+		<noscript>
+			 <img src="http://fillmurray.com/500/500" width="500" height="500" alt="Bill Murray">
+		</noscript>
+		<br>
+		<img data-src="http://fillmurray.com/500/600" width="500" height="600" alt="Bill Murray" data-lazyload>
+		<noscript>
+			 <img src="http://fillmurray.com/500/600" width="500" height="600" alt="Bill Murray" >
+		</noscript>
+		<br>
+		<img data-src="http://fillmurray.com/500/700" width="500" height="700" alt="Bill Murray" data-lazyload>
+		<noscript>
+			 <img src="http://fillmurray.com/500/700" width="500" height="700" alt="Bill Murray">
+		</noscript>
+		<br>
+		<img data-src="http://fillmurray.com/500/800" width="500" height="800" alt="Bill Murray" data-lazyload>
+		<noscript>
+			 <img src="http://fillmurray.com/500/800" width="500" height="800" alt="Bill Murray">
+		</noscript>
+		<br>
+		<img data-src="http://fillmurray.com/500/900" width="500" height="900" alt="Bill Murray" data-lazyload>
+		<noscript>
+			 <img src="http://fillmurray.com/500/900" width="500" height="900" alt="Bill Murray">
+		</noscript>
+		<br>
+		<img data-src="http://fillmurray.com/500/900" width="500" height="900" alt="Bill Murray" data-lazyload>
+		<noscript>
+			 <img src="http://fillmurray.com/500/900" width="500" height="900" alt="Bill Murray">
+		</noscript>
+		<br>
+		<img data-src="http://fillmurray.com/500/1000" width="500" height="1000" alt="Bill Murray" data-lazyload>
+		<noscript>
+			 <img src="http://fillmurray.com/500/1000" width="500" height="1000" alt="Bill Murray">
+		</noscript>
+		<br>
+		<img data-src="http://fillmurray.com/500/1100" width="500" height="1100" alt="Bill Murray" data-lazyload>
+		<noscript>
+			 <img src="http://fillmurray.com/500/1100" width="500" height="1100" alt="Bill Murray">
+		</noscript>
+		<br>
+		<img data-src="http://fillmurray.com/500/1200" width="500" height="1200" alt="Bill Murray" data-lazyload>
+		<noscript>
+			 <img src="http://fillmurray.com/500/1200" width="500" height="1200" alt="Bill Murray">
+		</noscript>
+	</section>
+{% endblock %}
+
+{% block styles %}
+	<style type="text/css">
+	img[data-lazyload] {
+		background-color: rgba(0, 0, 0, 0.1);
+	}
+	img[data-lazyload]:not([src]) {
+		padding: 1rem;
+	}
+	.cc-html-playground img {
+		display: block;
+		margin: 1rem auto;
+	}
+	</style>
+{% endblock %}
+
+{% block scripts %}
+	<script>
+		const imgElements = document.querySelectorAll('img[data-lazyload][data-src]')
+		if ('IntersectionObserver' in window) {
+			const observer = new IntersectionObserver(intersectionHandler, {
+				root: undefined, // container element, falls back to viewport
+				rootMargin: '0px 0px 0px 0px', // offset in px or % around root to observe
+				threshold: 1 // moment to trigger handler
+			})
+			// TODO: add image elements to observer
+		} else {
+			Array.from(imgElements).forEach(imgElement => {
+				setSrcFromDataSrc(imgElement)
+			})
+		}
+
+		function intersectionHandler (entries, observer) {
+			entries.forEach(entry => {
+				console.log(entry);
+				// TODO: setSrcFromDataSrc when an entry comes into view
+			})
+		}
+
+		function setSrcFromDataSrc (imgElement) {
+			imgElement.setAttribute('src', imgElement.getAttribute('data-src'))
+			imgElement.removeAttribute('data-src')
+		}
+	</script>
+{% endblock %}
