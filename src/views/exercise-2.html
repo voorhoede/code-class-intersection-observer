@@ -1,0 +1,232 @@
+{% set exercise = 1 %}
+{% set solution = true %}
+{% extends "views/_exercise.html" %}
+
+{% block introduction %}
+	<h1>Sticky elements</h1>
+	<p>Intersection Observer can be used to create sticky behaviour.</p>
+
+	<figure class="cc-figure">
+		<img src="/assets/sticky-animation.svg" alt="Wireframe" width="560" height="680">
+		<figcaption>
+			Yellow header <code>data-sticky-element</code> switches from static to fixed when blue container <code>[data-sticky-trigger]</code> is clipped.
+		</figcaption>
+	</figure>
+
+{% endblock %}
+
+{% block styles %}
+	<style type="text/css">
+
+	.cc-figure img {
+		width: 100%;
+		max-width: 560px;
+		height: auto;
+	}
+
+	.cc-figure figcaption {
+		color: #b3b3b3;
+	}
+
+	.cc-html-playground .heading,
+	.cc-html-playground .list {
+		margin: 0;
+		padding: 1rem;
+	}
+	.cc-html-playground li {
+		list-style: none;
+	}
+
+	[data-sticky-root] {
+		position: relative;
+	}
+	[data-sticky-trigger] {
+		height: 3em; /* fixed height so that it does not reflow if the content switches from static to another positioning */
+		display: block;
+		text-decoration: none;
+		color: inherit;
+	}
+	[data-sticky-trigger][data-intersecting] [data-sticky-element] {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		margin: 0;
+		background-color: #f3f3f3;
+		box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.05);
+	}
+	[data-sticky-root][data-intersecting] [data-sticky-trigger][data-intersecting] [data-sticky-element] {
+		position: fixed;
+		top: 0;
+		bottom: auto;
+		box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.1);
+	}
+	</style>
+{% endblock %}
+
+{% block scripts %}
+	<script>
+	if ('IntersectionObserver' in window) {
+		const triggerElements = document.querySelectorAll('[data-sticky-trigger]')
+		const triggerObserver = new IntersectionObserver(triggerIntersectionHandler, {
+			root: undefined, // container element, falls back to viewport
+			// TODO: complete options
+			// rootMargin: '?px ?px ?px ?px', // offset in px or % around root to observe
+			// threshold: [?] // moment to trigger handler
+		})
+		Array.from(triggerElements).forEach(element => triggerObserver.observe(element))
+
+		const rootElements = document.querySelectorAll('[data-sticky-root]')
+		const rootObserver = new IntersectionObserver(rootIntersectionHandler, {
+			root: undefined, // container element, falls back to viewport
+			// TODO: complete options
+			// rootMargin: '?px ?px ?px ?px', // offset in px or % around root to observe
+			// threshold: [?] // moment to trigger handler
+		})
+		Array.from(rootElements).forEach(element => rootObserver.observe(element))
+	}
+
+	function intersectionHandler (entries, observer) {
+		for (const entry of entries) {
+			const element = entry.target
+			let isIntersecting
+			if (element.hasAttribute('data-sticky-root')) {
+				isIntersecting = false // TODO: Define rule for intersection of root (section) element
+			} else {
+				isIntersecting = false // TODO: Define rule for intersection of trigger (around header) element
+			}
+			if (isIntersecting) {
+				element.setAttribute('data-intersecting', true)
+			} else {
+				element.removeAttribute('data-intersecting')
+			}
+		}
+	}
+	</script>
+{% endblock %}
+
+{% block html %}
+	<section class="cc-html-playground">
+		<section id="A" data-sticky-root>
+			<a href="#A" data-sticky-trigger>
+				<h2 class="heading" data-sticky-element>A</h2>
+			</a>
+			<ol class="list">
+				<li>Afghanistan</li>
+				<li>Albania</li>
+				<li>Algeria</li>
+				<li>Andorra</li>
+				<li>Angola</li>
+				<li>Antigua and Barbuda</li>
+				<li>Argentina</li>
+				<li>Armenia</li> 
+				<li>Australia</li>
+				<li>Austria</li>
+				<li>Azerbaijan</li>
+			</ol>
+		</section>
+		<section id="B" data-sticky-root>
+			<a href="#B" data-sticky-trigger>
+				<h2 class="heading" data-sticky-element>B</h2>
+			</a>
+			<ol class="list">
+				<li>Bahamas, The</li>
+				<li>Bahrain</li>
+				<li>Bangladesh</li>
+				<li>Barbados</li>
+				<li>Belarus</li>
+				<li>Belgium</li>
+				<li>Belize</li>
+				<li>Benin</li>
+				<li>Bhutan</li>
+				<li>Bolivia</li>
+				<li>Bosnia and Herzegovina</li>
+				<li>Botswana</li>
+				<li>Brazil</li>
+				<li>Brunei</li>
+				<li>Bulgaria</li>
+				<li>Burkina Faso</li>
+				<li>Burundi</li>
+			</ol>
+		</section>
+		<section id="C" data-sticky-root>
+			<a href="#C" data-sticky-trigger>
+				<h2 class="heading" data-sticky-element>C</h2>
+			</a>
+			<ol class="list">
+				<li>Cambodia</li>
+				<li>Cameroon</li>
+				<li>Canada</li>
+				<li>Cape Verde</li>
+				<li>Central African Republic</li>
+				<li>Chad</li>
+				<li>Chile</li>
+				<li>China</li>
+				<li>Colombia</li>
+				<li>Comoros</li>
+				<li>Congo, Democratic Republic of the</li>
+				<li>Congo, Republic of the</li>
+				<li>Costa Rica</li>
+				<li>Croatia</li>
+				<li>Cuba</li>
+				<li>Cyprus</li>
+				<li>Czech Republic</li>
+				<li>Denmark</li>
+			</ol>
+		</section>
+		<section id="D" data-sticky-root>
+			<a href="#D" data-sticky-trigger>
+				<h2 class="heading" data-sticky-element>D</h2>
+			</a>
+			<ol class="list">
+				<li>Djibouti</li>
+				<li>Dominica</li>
+				<li>Dominican Republic</li>
+			</ol>
+		</section>
+		<section id="E" data-sticky-root>
+			<a href="#E" data-sticky-trigger>
+				<h2 class="heading" data-sticky-element>E</h2>
+			</a>
+			<ol class="list">
+				<li>East Timor</li>
+				<li>Ecuador</li>
+				<li>Egypt</li>
+				<li>El Salvador</li>
+				<li>Equatorial Guinea</li>
+				<li>Eritrea</li>
+				<li>Estonia</li>
+				<li>Ethiopia</li>
+			</ol>
+		</section>
+		<section id="F" data-sticky-root>
+			<a href="#F" data-sticky-trigger>
+				<h2 class="heading" data-sticky-element>F</h2>
+			</a>
+			<ol class="list">
+				<li>Fiji</li>
+				<li>Finland</li>
+				<li>France</li>
+			</ol>
+		</section>
+		<section id="A" data-sticky-root>
+			<a href="#A" data-sticky-trigger>
+				<h2 class="heading" data-sticky-element>G</h2>
+			</a>
+			<ol class="list">
+				<li>Gabon</li>
+				<li>Gambia, The</li>
+				<li>Georgia</li>
+				<li>Germany</li>
+				<li>Ghana</li>
+				<li>Greece</li>
+				<li>Grenada</li>
+				<li>Guatemala</li>
+				<li>Guinea</li>
+				<li>Guinea-Bissau</li>
+				<li>Guyana</li>
+			</ol>
+		</section>
+
+	</section>
+{% endblock %}
