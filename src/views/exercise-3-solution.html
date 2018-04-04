@@ -1,0 +1,151 @@
+{% set exercise = 3 %}
+{% set solution = true %}
+{% extends "views/_exercise.html" %}
+
+{% block introduction %}
+	<h1>Overflow toggle</h1>
+
+	<p>
+		When working with user-generated content, one might have texts of wildly varying lengths.
+		One solution for this is to put this content in containers that a visitor can expand only when
+		her or his interest is piqued by the first couple of sentences.
+		Obviously, the button to expand that text should only be visible if the text is actually clipped.
+		Fortunately, this is another great use case for <code>IntersectionObserver</code>.
+	</p>
+{% endblock %}
+
+{% block html %}
+	<section class="cc-html-playground">
+
+		<section id="lorem" data-expandable>
+			<div data-expandable-content>
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ac tortor ac lorem porttitor vestibulum nec at nulla. Fusce facilisis leo at ante suscipit, sit amet tincidunt nisl porta. Maecenas condimentum in nisl porttitor interdum. Sed volutpat tempor efficitur. Ut non ante pulvinar, aliquam turpis sit amet, feugiat arcu. Pellentesque sodales nulla dapibus, venenatis turpis ac, viverra urna. In eu libero at massa vestibulum porta ac sed elit. Nullam sapien augue, hendrerit vel pulvinar id, faucibus ut libero. Cras ultricies ligula nec commodo mattis. Donec tincidunt, nibh ac accumsan posuere, risus leo malesuada risus, et blandit elit ex vitae elit. Duis ex sem, auctor in rutrum eget, scelerisque nec felis. Maecenas at odio dignissim, sollicitudin elit sit amet, hendrerit nunc. Praesent justo magna, iaculis et mi et, cursus sollicitudin purus. Nullam et imperdiet orci. Sed faucibus est tortor, et cursus purus dapibus et. Integer ultricies, ligula nec tincidunt laoreet, nibh eros semper neque, sed maximus quam diam tincidunt lectus.
+
+				Phasellus congue tristique posuere. Etiam id malesuada eros. Integer nulla lectus, posuere volutpat iaculis eu, efficitur id nibh. In id sapien condimentum, vulputate lacus vitae, tempus turpis. Donec eu blandit velit, sit amet pharetra purus. Pellentesque maximus nunc velit, ac vulputate quam mattis vel. Curabitur vel erat feugiat, ultrices leo eu, aliquam velit. Pellentesque iaculis libero et semper elementum. Aenean erat sem, molestie a purus ac, congue viverra neque. Maecenas tempor interdum dictum. Nam nec eros eu ex efficitur semper vel vel risus. Praesent fringilla eros id lectus suscipit feugiat. Pellentesque elementum commodo commodo. Maecenas vitae condimentum quam. Vestibulum leo quam, aliquet at scelerisque vel, varius id odio.
+			</div>
+			<a href="#lorem" data-expandable-trigger="expand">Read more</a>
+			<a href="#" data-expandable-trigger="collapse">Read less</a>
+		</section>
+		<section id="short" data-expandable>
+			<div data-expandable-content>
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ac tortor ac lorem porttitor vestibulum nec at nulla. Fusce facilisis leo at ante suscipit, sit amet tincidunt nisl porta. Maecenas condimentum in nisl porttitor interdum. Sed volutpat tempor efficitur. Ut non ante pulvinar, aliquam turpis sit amet, feugiat arcu. Pellentesque sodales nulla dapibus, venenatis turpis ac, viverra urna. In eu libero at massa vestibulum porta ac sed elit.
+			</div>
+			<a href="#short" data-expandable-trigger="expand">Read more</a>
+			<a href="#" data-expandable-trigger="collapse">Read less</a>
+		</section>
+		<section id="ipsum" data-expandable>
+			<div data-expandable-content>
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ac tortor ac lorem porttitor vestibulum nec at nulla. Fusce facilisis leo at ante suscipit, sit amet tincidunt nisl porta. Maecenas condimentum in nisl porttitor interdum. Sed volutpat tempor efficitur. Ut non ante pulvinar, aliquam turpis sit amet, feugiat arcu. Pellentesque sodales nulla dapibus, venenatis turpis ac, viverra urna. In eu libero at massa vestibulum porta ac sed elit. Nullam sapien augue, hendrerit vel pulvinar id, faucibus ut libero. Cras ultricies ligula nec commodo mattis. Donec tincidunt, nibh ac accumsan posuere, risus leo malesuada risus, et blandit elit ex vitae elit. Duis ex sem, auctor in rutrum eget, scelerisque nec felis. Maecenas at odio dignissim, sollicitudin elit sit amet, hendrerit nunc. Praesent justo magna, iaculis et mi et, cursus sollicitudin purus. Nullam et imperdiet orci. Sed faucibus est tortor, et cursus purus dapibus et. Integer ultricies, ligula nec tincidunt laoreet, nibh eros semper neque, sed maximus quam diam tincidunt lectus.
+
+				Phasellus congue tristique posuere. Etiam id malesuada eros. Integer nulla lectus, posuere volutpat iaculis eu, efficitur id nibh. In id sapien condimentum, vulputate lacus vitae, tempus turpis. Donec eu blandit velit, sit amet pharetra purus. Pellentesque maximus nunc velit, ac vulputate quam mattis vel. Curabitur vel erat feugiat, ultrices leo eu, aliquam velit. Pellentesque iaculis libero et semper elementum. Aenean erat sem, molestie a purus ac, congue viverra neque. Maecenas tempor interdum dictum. Nam nec eros eu ex efficitur semper vel vel risus. Praesent fringilla eros id lectus suscipit feugiat. Pellentesque elementum commodo commodo. Maecenas vitae condimentum quam. Vestibulum leo quam, aliquet at scelerisque vel, varius id odio.</div>
+			<a href="#ipsum" data-expandable-trigger="expand">Read more</a>
+			<a href="#" data-expandable-trigger="collapse">Read less</a>
+		</section>
+	</section>
+{% endblock %}
+
+{% block styles %}
+	<style type="text/css">
+		:root {
+			--collapsed-height: 12rem;
+			--padding: 1rem;
+			--trigger-height: 3rem;
+			--trigger-margin: 4px;
+			--background: #f3f3f3;
+		}
+
+		[data-expandable] {
+			position: relative;
+			max-height: var(--collapsed-height);
+			min-height: var(--collapsed-height);
+			overflow: hidden;
+			padding: var(--padding);
+			padding-bottom: calc(var(--trigger-height));
+		}
+
+		[data-expandable-trigger]:not([hidden]) {
+			display: block;
+			position: absolute;
+			width: calc(100% - 2 * var(--trigger-margin));
+			padding: var(--padding);
+			padding-top: calc(2 * var(--padding));
+			text-align: center;
+			bottom: var(--trigger-margin);
+			left: var(--trigger-margin);
+			right: var(--trigger-margin);
+			height: var(--trigger-height);
+			background-image: linear-gradient(to bottom, transparent, var(--background) var(--padding));
+			box-shadow: 0 var(--trigger-margin) 0 var(--background);
+		}
+
+		[data-expandable]:target,
+		[data-expandable][data-expanded] {
+			max-height: none;
+		}
+
+		[data-expandable] [data-expandable-trigger="collapse"],
+		[data-expandable] [data-expandable-trigger="collapse"] {
+			display: none;
+		}
+		[data-expandable]:not([hidden]):target [data-expandable-trigger="collapse"],
+		[data-expandable]:not([hidden])[data-expanded] [data-expandable-trigger="collapse"] {
+			display: block;
+		}
+		[data-expandable]:target [data-expandable-trigger="expand"],
+		[data-expandable][data-expanded] [data-expandable-trigger="expand"] {
+			display: none;
+		}
+	</style>
+{% endblock %}
+
+{% block scripts %}
+	<script>
+		const expandables = document.querySelectorAll('[data-expandable]')
+		Array.from(expandables).forEach(enhance)
+
+		function enhance(element) {
+			if (!('IntersectionObserver' in window)) {
+				return false
+			}
+			const content = element.querySelector('[data-expandable-content]')
+			const bottomMargin = getComputedStyle(element).paddingBottom;
+			const observer = new IntersectionObserver(intersectionHandler, {
+				root: element, // container element
+				rootMargin: `0px 0px ${bottomMargin} 0px`, // offset in px or % around root to observe
+				threshold: 1 // moment to trigger handler
+			})
+			observer.observe(content) // first element in entries is content
+
+			const triggers = element.querySelectorAll('[data-expandable-trigger]')
+			Array.from(triggers).forEach(el => el.addEventListener('click', toggle))
+
+			return element
+		}
+
+		function intersectionHandler(entries, observer) {
+			const parent = observer.root
+			const triggers = parent.querySelectorAll('[data-expandable-trigger]')
+			const isExpanded = parent.hasAttribute('data-expanded')
+
+			// Check if the content fits within the parent
+			if (!isExpanded && entries[0].intersectionRatio >= 1) {
+				Array.from(triggers).forEach(trigger => trigger.setAttribute('hidden', true))
+			} else {
+				Array.from(triggers).forEach(trigger => trigger.removeAttribute('hidden'))
+			}
+		}
+
+		function toggle(event) {
+			event.preventDefault()
+			const trigger = event.target
+			const action = trigger.getAttribute('data-expandable-trigger')
+			const parent = trigger.parentElement
+
+			if (action === 'expand') {
+				parent.setAttribute('data-expanded', true);
+			} else {
+				parent.removeAttribute('data-expanded');
+			}
+		}
+	</script>
+{% endblock %}
