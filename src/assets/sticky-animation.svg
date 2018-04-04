@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="640" viewBox=" 0 60 560 700">
+  <g id="window-background">
+    <path fill="#fff" stroke="#b2b2b2" stroke-linecap="square" stroke-miterlimit="10" stroke-width="8" d="M16 177v390c0 8.8 7.2 16 19 16h496c5.8 0 13-7.2 13-16V177z"/>
+  </g>
+  <g class="container" fill="none" stroke="#12353c" stroke-linecap="square" stroke-linejoin="round" stroke-width="8">
+    <path d="M32 372h496v160H32z"/>
+    <path d="M47 388h464v64H47z"/>
+    <path d="M63 404h432v32H63z"/>
+  </g>
+  <g class="container" fill="none" stroke="#12353c" stroke-linecap="square" stroke-linejoin="round" stroke-width="8" data-name="ContainerGroup">
+    <path d="M32 548h496v160H32z"/>
+    <path d="M47 564h464v64H47z"/>
+    <path d="M63 580h432v32H63z"/>
+  </g>
+  <g class="container">
+    <path fill="none" stroke="#12353c" stroke-linecap="square" stroke-linejoin="round" stroke-width="8" d="M32 196h496v160H32z"/>
+    <path fill="none" stroke="#0cafcd" stroke-linecap="square" stroke-linejoin="round" stroke-width="8" d="M48 212h464v64H48z"/>
+    <path id="sticky-element" fill="none" stroke="#eddd3e" stroke-linecap="square" stroke-linejoin="round" stroke-width="8" d="M64 228h432v32H64z"/>
+  </g>
+  <path id="dim-bottom" fill="#f3f3f3" d="M0 583h560v137H0z" opacity=".1"/>
+  <path id="dim-top" fill="#f3f3f3" d="M0 0h560v177H0z" opacity=".1"/>
+  <g id="window-foreground">
+    <path fill="#fff" stroke="#b2b2b2" stroke-linecap="square" stroke-miterlimit="10" stroke-width="8" d="M16 177v-24a16 16 0 0 1 16-16h496a16 16 0 0 1 16 16v24z"/>
+    <ellipse cx="35.5" cy="157" fill="#b3b3b3" rx="6" ry="6"/>
+    <ellipse cx="55.5" cy="157" fill="#b3b3b3" rx="6" ry="6"/>
+    <ellipse cx="75.5" cy="157" fill="#b3b3b3" rx="6" ry="6"/>
+    <path fill="none" stroke="#b2b2b2" stroke-linecap="square" stroke-miterlimit="10" stroke-width="8" d="M16 177v390c0 8.8 7.2 16 19 16h496c5.8 0 13-7.2 13-16V177z"/>
+  </g>
+
+  <defs>
+  <style>
+	:root {
+		background-color: #f3f3f3;
+	}
+    .container {
+      animation-name: scrollUp;
+      animation-duration: 2.5s;
+      animation-direction: alternate;
+      animation-iteration-count: infinite;
+      animation-easing-function: linear;
+    }
+    .container #sticky-element {
+      animation-name: sticky;
+      animation-duration: 2.5s;
+      animation-direction: alternate;
+      animation-iteration-count: infinite;
+      animation-easing-function: linear;
+    }
+    @keyframes scrollUp {
+      0%    { transform: translateY(0) }
+      100%  { transform: translateY(-112px) }
+    }
+    @keyframes sticky {
+      0%    { transform: translateY(0) }
+      12.5% { transform: translateY(0) }
+      100%  { transform: translateY(80px) }
+    }
+  </style>
+  </defs>
+</svg>
