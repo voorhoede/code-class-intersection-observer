@@ -68,7 +68,7 @@
 	<script>
 	if ('IntersectionObserver' in window) {
 		const triggerElements = document.querySelectorAll('[data-sticky-trigger]')
-		const triggerObserver = new IntersectionObserver(triggerIntersectionHandler, {
+		const triggerObserver = new IntersectionObserver(intersectionHandler, {
 			root: undefined, // container element, falls back to viewport
 			// TODO: complete options
 			// rootMargin: '?px ?px ?px ?px', // offset in px or % around root to observe
@@ -77,7 +77,7 @@
 		Array.from(triggerElements).forEach(element => triggerObserver.observe(element))
 
 		const rootElements = document.querySelectorAll('[data-sticky-root]')
-		const rootObserver = new IntersectionObserver(rootIntersectionHandler, {
+		const rootObserver = new IntersectionObserver(intersectionHandler, {
 			root: undefined, // container element, falls back to viewport
 			// TODO: complete options
 			// rootMargin: '?px ?px ?px ?px', // offset in px or % around root to observe
