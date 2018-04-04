@@ -1,5 +1,5 @@
 {% set exercise = 1 %}
-{% extends "views/_base/exercise.html" %}
+{% extends "views/_exercise.html" %}
 
 {% block introduction %}
 	<h1>Lazyloading images</h1>
@@ -82,9 +82,7 @@
 			})
 			// TODO: add image elements to observer
 		} else {
-			Array.from(imgElements).forEach(imgElement => {
-				setSrcFromDataSrc(imgElement)
-			})
+			Array.from(imgElements).forEach(imgElement => setSrcFromDataSrc(imgElement))
 		}
 
 		function intersectionHandler (entries, observer) {

@@ -1,6 +1,6 @@
 {% set exercise = 1 %}
 {% set solution = true %}
-{% extends "views/_base/exercise.html" %}
+{% extends "views/_exercise.html" %}
 
 {% block introduction %}
 	<h1>Lazyloading images</h1>
@@ -54,15 +54,15 @@
 
 {% block styles %}
 	<style type="text/css">
-	img[data-lazyload] {
-		background-color: #ccc;
-	}
-	img[data-lazyload]:not([src]) {
-		padding: 1rem;
-	}
-	.lazy-images img {
+	.cc-html-playground img {
 		display: block;
 		margin: 1rem auto;
+	}
+	.cc-html-playground img[data-lazyload] {
+		background-color: #ccc;
+	}
+	.cc-html-playground img[data-lazyload]:not([src]) {
+		padding: 1rem;
 	}
 	</style>
 {% endblock %}
@@ -76,18 +76,14 @@
 				rootMargin: '0px 0px 0px 0px', // offset in px or % around root to observe
 				threshold: 0 // moment to trigger handler
 			})
-			Array.from(imgElements).forEach(imgElement => {
-				observer.observe(imgElement)
-			})
+			Array.from(imgElements).forEach(imgElement => observer.observe(imgElement))
 		} else {
-			Array.from(imgElements).forEach(imgElement => {
-				setSrcFromDataSrc(imgElement)
-			})
+			Array.from(imgElements).forEach(imgElement => setSrcFromDataSrc(imgElement))
 		}
 
 		function intersectionHandler (entries, observer) {
 			entries.forEach(entry => {
-				if (entry.isIntersecting) {
+				if (entry.intersectionRatio > 0) {
 					const element = entry.target;
 					setSrcFromDataSrc(element)
 					observer.unobserve(element)
