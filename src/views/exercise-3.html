@@ -62,7 +62,7 @@
 			padding-bottom: calc(var(--trigger-height));
 		}
 
-		[data-expandable-trigger]:not([hidden]) {
+		[data-expandable-trigger] {
 			display: block;
 			position: absolute;
 			width: calc(100% - 2 * var(--trigger-margin));
@@ -78,20 +78,19 @@
 		}
 
 		[data-expandable]:target,
-		[data-expandable][data-expanded] {
+		[data-expandable="expanded"] {
 			max-height: none;
 		}
 
-		[data-expandable] [data-expandable-trigger="collapse"],
 		[data-expandable] [data-expandable-trigger="collapse"] {
 			display: none;
 		}
 		[data-expandable]:not([hidden]):target [data-expandable-trigger="collapse"],
-		[data-expandable]:not([hidden])[data-expanded] [data-expandable-trigger="collapse"] {
+		[data-expandable="expanded"]:not([hidden]) [data-expandable-trigger="collapse"] {
 			display: block;
 		}
 		[data-expandable]:target [data-expandable-trigger="expand"],
-		[data-expandable][data-expanded] [data-expandable-trigger="expand"] {
+		[data-expandable="expanded"] [data-expandable-trigger="expand"] {
 			display: none;
 		}
 	</style>
@@ -106,15 +105,16 @@
 			if (!('IntersectionObserver' in window)) {
 				return false
 			}
-			const content = element.querySelector('[data-expandable-content]')
+			// TODO: define root element and threshold for observer,
+			// define what to observe
 			const bottomMargin = getComputedStyle(element).paddingBottom;
 			const observer = new IntersectionObserver(intersectionHandler, {
-				root: element, // container element
+				// root: ?,
 				rootMargin: `0px 0px ${bottomMargin} 0px`, // offset in px or % around root to observe
-				threshold: 1 // moment to trigger handler
+				// threshold: ? // moment to trigger handler
 			})
-			observer.observe(content) // first element in entries is content
 
+			// observer.observe(?)
 			const triggers = element.querySelectorAll('[data-expandable-trigger]')
 			Array.from(triggers).forEach(el => el.addEventListener('click', toggle))
 
@@ -125,9 +125,10 @@
 			const parent = observer.root
 			const triggers = parent.querySelectorAll('[data-expandable-trigger]')
 			const isExpanded = parent.hasAttribute('data-expanded')
+			// TODO: Define how to check if the content fits within the container
+			// const contentFitsWithinCollapsed = ?
 
-			// Check if the content fits within the parent
-			if (!isExpanded && entries[0].intersectionRatio >= 1) {
+			if (contentFitsWithinCollapsed) {
 				Array.from(triggers).forEach(trigger => trigger.setAttribute('hidden', true))
 			} else {
 				Array.from(triggers).forEach(trigger => trigger.removeAttribute('hidden'))
@@ -139,12 +140,9 @@
 			const trigger = event.target
 			const action = trigger.getAttribute('data-expandable-trigger')
 			const parent = trigger.parentElement
-
-			if (action === 'expand') {
-				parent.setAttribute('data-expanded', true);
-			} else {
-				parent.removeAttribute('data-expanded');
-			}
+			const state = (action === 'expand') ? 'expanded' : 'collapsed'
+			parent.setAttribute('data-expandable', state);
 		}
 	</script>
 {% endblock %}
+
